@@ -43,14 +43,14 @@ help:  ## Display this help
 ##@ Build PHP images
 
 php-%: cmd-exists-docker  ## Build PHP container, where % is a PHP version
-	@if [[ ! -f "php-$(*).Dockerfile" ]]; then printf "$(RED)Unknown/unsupported PHP version$(END)\n" ; exit 1; fi
+	@if [[ ! -f "docker/php-$(*).Dockerfile" ]]; then printf "$(RED)Unknown/unsupported PHP version$(END)\n" ; exit 1; fi
 	@if [[ " $(LTS) " == *"$(*)"* ]]; then \
 			if [[ ! -f .env ]]; then printf "$(RED)ERROR: Missing .env file with credentials$(END)\n" ; exit 1 ; fi ; \
 			printf "$(GREEN)Building PHP $(*) image...$(END)\n" ; \
-			docker buildx build -f php-$(*).Dockerfile -o type=docker -t "zendphp:$(*)" --build-arg "ZENDPHP_REPO_USERNAME=${ZENDPHP_REPO_USERNAME}" --build-arg "ZENDPHP_REPO_PASSWORD=${ZENDPHP_REPO_PASSWORD}" --no-cache . ; \
+			docker buildx build -f "docker/php-$(*).Dockerfile" -o type=docker -t "zendphp:$(*)" --build-arg "ZENDPHP_REPO_USERNAME=${ZENDPHP_REPO_USERNAME}" --build-arg "ZENDPHP_REPO_PASSWORD=${ZENDPHP_REPO_PASSWORD}" --no-cache . ; \
 		else \
 			printf "$(GREEN)Building PHP $(*) image...$(END)\n" ; \
-			docker buildx build -f php-$(*).Dockerfile -o type=docker -t "zendphp:$(*)" --no-cache . ; \
+			docker buildx build -f "docker/php-$(*).Dockerfile" -o type=docker -t "zendphp:$(*)" --no-cache . ; \
 		fi
 	@printf "\n$(GREEN)[DONE]$(END)\n"
 	@printf "$(GREEN)Built zendphp:$(*)$(END)\n"
