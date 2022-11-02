@@ -3,6 +3,21 @@
 This directory contains a number of dockerfiles that can be used to generate local PHP containers.
 Use `make help` to get a list of available targets.
 
+## Preparing images
+
+You can run `make help` to get a list of targets.
+`make all` will build all images.
+
+### Credentials
+
+For LTS versions, you will need to provide credentials.
+You can do this via a `.env` file, with the following contents:
+
+```bash
+ZENDPHP_REPO_USERNAME={ORDER ID or account ID}
+ZENDPHP_REPO_PASSWORD={password}
+```
+
 ## Usage
 
 ### Executing the PHP binary or running PHP scripts
