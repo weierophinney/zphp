@@ -34,11 +34,13 @@ As an example, the following runs `vendor/bin/phpcs` using the PHP 8.1 container
 docker run --rm -it -v "$(pwd):/app" -w /app zendphp:8.1 vendor/bin/phpcs
 ```
 
-The script `bin/runphp` will essentially do this for you, and the above becomes:
+The script `phpc` will essentially do this for you, and the above becomes:
 
 ```bash
-runphp 8.1 vendor/bin/phpcs
+phpc --php 8.1 vendor/bin/phpcs
 ```
+
+> If you have set a default PHP version via `phpc switch 8.1`, you can omit the `--php` flag.
 
 ### Executing Composer
 
@@ -55,8 +57,10 @@ As an example, the following runs Composer using the PHP 8.1 container:
 docker run --rm -it -v "$(pwd):/app" -w /app --entrypoint /usr/local/sbin/composer zendphp:8.1 install
 ```
 
-The script `bin/runcomposer` will essentially do this for you, and the above becomes:
+The script `phpc` will essentially do this for you, and the above becomes:
 
 ```bash
-runcomposer 8.1 install
+phpc composer --php 8.1 install
 ```
+
+> If you have set a default PHP version via `phpc switch 8.1`, you can omit the `--php` flag.

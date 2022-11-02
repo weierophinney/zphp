@@ -1,0 +1,78 @@
+name: phpc
+help: |-
+  Containerized PHP
+
+  Run PHP via a container.
+  Switch between different PHP versions.
+  Run PHP scripts.
+  Run Composer.
+version: 0.1.0
+
+commands:
+- name: run
+  alias: r
+  help: Run the PHP binary or a PHP script
+  dependencies:
+  - docker
+
+  flags:
+  - long: --php
+    arg: php
+    required: false
+    allowed: ["AUTO", "5.6", "7.3", "7.4", "8.0", "8.1"]
+    default: AUTO
+    help: |-
+          PHP version to use. If not provided, uses the default.
+
+  catch_all: 
+    label: arguments
+    help: Arguments to pass to the PHP binary
+    required: true
+
+  examples:
+  - phpc run -v
+  - phpc run -m
+  - phpc run -a
+  - phpc run vendor/bin/laminas
+  - phpc run --php 8.1 -v
+  - phpc run --php 5.6 -m
+  - phpc run --php 7.3 -a
+  - phpc run --php 8.0 vendor/bin/laminas
+
+- name: composer
+  alias: c
+  help: Run a composer command using the given PHP version
+
+  flags:
+  - long: --php
+    arg: php
+    required: false
+    allowed: ["AUTO", "5.6", "7.3", "7.4", "8.0", "8.1"]
+    default: AUTO
+    help: |-
+          PHP version to use. If not provided, uses the default.
+
+  catch_all: 
+    label: arguments
+    help: Arguments to pass to the PHP binary
+    required: true
+
+  examples:
+  - phpc composer
+  - phpc composer install
+  - phpc composer update
+  - phpc composer --php 8.1
+  - phpc composer --php 7.4 install
+  - phpc composer --php 5.6 update
+
+- name: switch
+  alias: s
+  help: Switch the default version of PHP selected
+  args:
+  - name: php
+    required: true
+    help: PHP version to use as default
+    allowed: ["5.6", "7.3", "7.4", "8.0", "8.1"]
+
+  examples:
+  - phpc switch 8.1
