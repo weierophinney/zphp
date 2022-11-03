@@ -6,7 +6,7 @@ help: |-
   Switch between different PHP versions.
   Run PHP scripts.
   Run Composer.
-version: 0.1.0
+version: 0.1.1dev
 
 commands:
 - import: src/completions_command.sh

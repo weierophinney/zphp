@@ -927,7 +927,7 @@ zphp_switch_parse_requirements() {
 
 # :command.initialize
 initialize() {
-  version="0.1.0"
+  version="0.1.1dev"
   long_usage=''
   set -e
 
