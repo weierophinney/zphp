@@ -1,12 +1,12 @@
-name: phpc
+name: zphp
 help: |-
-  Containerized PHP
+  Containerized ZendPHP
 
   Run PHP via a container.
   Switch between different PHP versions.
   Run PHP scripts.
   Run Composer.
-version: 0.1.0
+version: 0.1.0dev
 
 commands:
 - name: run

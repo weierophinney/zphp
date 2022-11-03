@@ -16,24 +16,24 @@ version_command() {
 }
 
 # :command.usage
-phpc_usage() {
+zphp_usage() {
   if [[ -n $long_usage ]]; then
-    printf "phpc\n"
+    printf "zphp\n"
     echo
 
-    printf "  Containerized PHP\n  \n  Run PHP via a container.\n  Switch between different PHP versions.\n  Run PHP scripts.\n  Run Composer.\n"
+    printf "  Containerized ZendPHP\n  \n  Run PHP via a container.\n  Switch between different PHP versions.\n  Run PHP scripts.\n  Run Composer.\n"
     echo
 
   else
-    printf "phpc - Containerized PHP\n"
+    printf "zphp - Containerized ZendPHP\n"
     echo
 
   fi
 
   printf "Usage:\n"
-  printf "  phpc COMMAND\n"
-  printf "  phpc [COMMAND] --help | -h\n"
-  printf "  phpc --version | -v\n"
+  printf "  zphp COMMAND\n"
+  printf "  zphp [COMMAND] --help | -h\n"
+  printf "  zphp --version | -v\n"
   echo
   # :command.usage_commands
   printf "Commands:\n"
@@ -58,13 +58,13 @@ phpc_usage() {
 }
 
 # :command.usage
-phpc_run_usage() {
+zphp_run_usage() {
   if [[ -n $long_usage ]]; then
-    printf "phpc run - Run the PHP binary or a PHP script\n"
+    printf "zphp run - Run the PHP binary or a PHP script\n"
     echo
 
   else
-    printf "phpc run - Run the PHP binary or a PHP script\n"
+    printf "zphp run - Run the PHP binary or a PHP script\n"
     echo
 
   fi
@@ -73,8 +73,8 @@ phpc_run_usage() {
   echo
 
   printf "Usage:\n"
-  printf "  phpc run [OPTIONS] ARGUMENTS...\n"
-  printf "  phpc run --help | -h\n"
+  printf "  zphp run [OPTIONS] ARGUMENTS...\n"
+  printf "  zphp run --help | -h\n"
   echo
 
   # :command.long_usage
@@ -122,13 +122,13 @@ phpc_run_usage() {
 }
 
 # :command.usage
-phpc_composer_usage() {
+zphp_composer_usage() {
   if [[ -n $long_usage ]]; then
-    printf "phpc composer - Run a composer command using the given PHP version\n"
+    printf "zphp composer - Run a composer command using the given PHP version\n"
     echo
 
   else
-    printf "phpc composer - Run a composer command using the given PHP version\n"
+    printf "zphp composer - Run a composer command using the given PHP version\n"
     echo
 
   fi
@@ -137,8 +137,8 @@ phpc_composer_usage() {
   echo
 
   printf "Usage:\n"
-  printf "  phpc composer [OPTIONS] ARGUMENTS...\n"
-  printf "  phpc composer --help | -h\n"
+  printf "  zphp composer [OPTIONS] ARGUMENTS...\n"
+  printf "  zphp composer --help | -h\n"
   echo
 
   # :command.long_usage
@@ -179,13 +179,13 @@ phpc_composer_usage() {
 }
 
 # :command.usage
-phpc_switch_usage() {
+zphp_switch_usage() {
   if [[ -n $long_usage ]]; then
-    printf "phpc switch - Switch the default version of PHP selected\n"
+    printf "zphp switch - Switch the default version of PHP selected\n"
     echo
 
   else
-    printf "phpc switch - Switch the default version of PHP selected\n"
+    printf "zphp switch - Switch the default version of PHP selected\n"
     echo
 
   fi
@@ -194,8 +194,8 @@ phpc_switch_usage() {
   echo
 
   printf "Usage:\n"
-  printf "  phpc switch PHP\n"
-  printf "  phpc switch --help | -h\n"
+  printf "  zphp switch PHP\n"
+  printf "  zphp switch --help | -h\n"
   echo
 
   # :command.long_usage
@@ -399,7 +399,7 @@ config_has_key() {
 
 # :command.command_functions
 # :command.function
-phpc_run_command() {
+zphp_run_command() {
   # src/run_command.sh
   local php
 
@@ -422,7 +422,7 @@ phpc_run_command() {
 }
 
 # :command.function
-phpc_composer_command() {
+zphp_composer_command() {
   # src/composer_command.sh
   local php
 
@@ -441,7 +441,7 @@ phpc_composer_command() {
 }
 
 # :command.function
-phpc_switch_command() {
+zphp_switch_command() {
   # src/switch_command.sh
   local php="${args[php]}"
   local config_dir
@@ -468,7 +468,7 @@ parse_requirements() {
 
   --help | -h )
     long_usage=yes
-    phpc_usage
+    zphp_usage
     exit
     ;;
 
@@ -484,27 +484,27 @@ parse_requirements() {
   run | r )
     action="run"
     shift
-    phpc_run_parse_requirements "$@"
+    zphp_run_parse_requirements "$@"
     shift $#
     ;;
 
   composer | c )
     action="composer"
     shift
-    phpc_composer_parse_requirements "$@"
+    zphp_composer_parse_requirements "$@"
     shift $#
     ;;
 
   switch | s )
     action="switch"
     shift
-    phpc_switch_parse_requirements "$@"
+    zphp_switch_parse_requirements "$@"
     shift $#
     ;;
 
   # :command.command_fallback
   "" )
-    phpc_usage >&2
+    zphp_usage >&2
     exit 1
     ;;
 
@@ -539,12 +539,12 @@ parse_requirements() {
 }
 
 # :command.parse_requirements
-phpc_run_parse_requirements() {
+zphp_run_parse_requirements() {
   # :command.fixed_flags_filter
   case "${1:-}" in
   --help | -h )
     long_usage=yes
-    phpc_run_usage
+    zphp_run_usage
     exit
     ;;
 
@@ -611,7 +611,7 @@ phpc_run_parse_requirements() {
 
   # :command.catch_all_filter
   if [[ ${#other_args[@]} -eq 0 ]]; then
-    printf "missing required argument: ARGUMENTS...\nusage: phpc run [OPTIONS] ARGUMENTS...\n" >&2
+    printf "missing required argument: ARGUMENTS...\nusage: zphp run [OPTIONS] ARGUMENTS...\n" >&2
     exit 1
   fi
 
@@ -627,12 +627,12 @@ phpc_run_parse_requirements() {
 }
 
 # :command.parse_requirements
-phpc_composer_parse_requirements() {
+zphp_composer_parse_requirements() {
   # :command.fixed_flags_filter
   case "${1:-}" in
   --help | -h )
     long_usage=yes
-    phpc_composer_usage
+    zphp_composer_usage
     exit
     ;;
 
@@ -678,7 +678,7 @@ phpc_composer_parse_requirements() {
 
   # :command.catch_all_filter
   if [[ ${#other_args[@]} -eq 0 ]]; then
-    printf "missing required argument: ARGUMENTS...\nusage: phpc composer [OPTIONS] ARGUMENTS...\n" >&2
+    printf "missing required argument: ARGUMENTS...\nusage: zphp composer [OPTIONS] ARGUMENTS...\n" >&2
     exit 1
   fi
 
@@ -694,12 +694,12 @@ phpc_composer_parse_requirements() {
 }
 
 # :command.parse_requirements
-phpc_switch_parse_requirements() {
+zphp_switch_parse_requirements() {
   # :command.fixed_flags_filter
   case "${1:-}" in
   --help | -h )
     long_usage=yes
-    phpc_switch_usage
+    zphp_switch_usage
     exit
     ;;
 
@@ -737,7 +737,7 @@ phpc_switch_parse_requirements() {
 
   # :command.required_args_filter
   if [[ -z ${args[php]+x} ]]; then
-    printf "missing required argument: PHP\nusage: phpc switch PHP\n" >&2
+    printf "missing required argument: PHP\nusage: zphp switch PHP\n" >&2
     exit 1
   fi
 
@@ -751,7 +751,7 @@ phpc_switch_parse_requirements() {
 
 # :command.initialize
 initialize() {
-  version="0.1.0"
+  version="0.1.0dev"
   long_usage=''
   set -e
 
@@ -771,25 +771,25 @@ run() {
   if [[ $action == "run" ]]; then
     if [[ ${args[--help]:-} ]]; then
       long_usage=yes
-      phpc_run_usage
+      zphp_run_usage
     else
-      phpc_run_command
+      zphp_run_command
     fi
 
   elif [[ $action == "composer" ]]; then
     if [[ ${args[--help]:-} ]]; then
       long_usage=yes
-      phpc_composer_usage
+      zphp_composer_usage
     else
-      phpc_composer_command
+      zphp_composer_command
     fi
 
   elif [[ $action == "switch" ]]; then
     if [[ ${args[--help]:-} ]]; then
       long_usage=yes
-      phpc_switch_usage
+      zphp_switch_usage
     else
-      phpc_switch_command
+      zphp_switch_command
     fi
 
   elif [[ $action == "root" ]]; then
