@@ -47,10 +47,10 @@ php-%: cmd-exists-docker  ## Build PHP container, where % is a PHP version
 	@if [[ " $(LTS) " == *"$(*)"* ]]; then \
 			if [[ ! -f .env ]]; then printf "$(RED)ERROR: Missing .env file with credentials$(END)\n" ; exit 1 ; fi ; \
 			printf "$(GREEN)Building PHP $(*) image...$(END)\n" ; \
-			docker buildx build -f "docker/php-$(*).Dockerfile" -o type=docker -t "zendphp:$(*)" --build-arg "ZENDPHP_REPO_USERNAME=${ZENDPHP_REPO_USERNAME}" --build-arg "ZENDPHP_REPO_PASSWORD=${ZENDPHP_REPO_PASSWORD}" --no-cache . ; \
+			docker buildx build -f "docker/php-$(*).Dockerfile" -o type=docker -t "zendphp:$(*)" --build-arg "ZENDPHP_REPO_USERNAME=${ZENDPHP_REPO_USERNAME}" --build-arg "ZENDPHP_REPO_PASSWORD=${ZENDPHP_REPO_PASSWORD}" --build-arg "GITHUB_USERNAME=${GITHUB_USERNAME}" --build-arg "GITHUB_TOKEN=${GITHUB_TOKEN}" --no-cache . ; \
 		else \
 			printf "$(GREEN)Building PHP $(*) image...$(END)\n" ; \
-			docker buildx build -f "docker/php-$(*).Dockerfile" -o type=docker -t "zendphp:$(*)" --no-cache . ; \
+			docker buildx build -f "docker/php-$(*).Dockerfile" -o type=docker -t "zendphp:$(*)" --build-arg "GITHUB_USERNAME=${GITHUB_USERNAME}" --build-arg "GITHUB_TOKEN=${GITHUB_TOKEN}" --no-cache . ; \
 		fi
 	@printf "\n$(GREEN)[DONE]$(END)\n"
 	@printf "$(GREEN)Built zendphp:$(*)$(END)\n"

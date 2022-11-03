@@ -46,6 +46,10 @@ ARG BASE_IMAGE=cli
 
 FROM cr.zend.com/zendphp/7.3:ubuntu-20.04-cli
 
+# Github user and token, to allow bypassing API limits
+ARG GITHUB_USERNAME
+ARG GITHUB_TOKEN
+
 # CUSTOMIZATIONS
 #
 # TIMEZONE=timezone the OS should use; UTC by default
@@ -65,12 +69,12 @@ ARG INSTALL_COMPOSER=true
 
 # SYSTEM_PACKAGES=space- or comma-separated list of additional OS-specific
 # packages to install (e.g., cron, dev libraries for building extensions, etc.)
-ARG SYSTEM_PACKAGES="curl sed"
+ARG SYSTEM_PACKAGES="curl sed git"
 
 # ZEND_EXTENSIONS_LIST=space- or comma-separated list of packaged ZendPHP
 # extensions to install and enable. These should omit the prefix
 # php{VERSION}-zend (DEB) or php{VERSION}zend (RPM); e.g., mysqli, pdo-pgsql, etc.
-ARG ZEND_EXTENSIONS_LIST="bcmath bz2 ctype curl dom ffi fileinfo gd iconv igbinary imagick intl json mbstring opcache phar readline shmop simplexml soap sockets sqlite3 tidy tokenizer xdebug xml xmlreader xmlwriter xsl zip"
+ARG ZEND_EXTENSIONS_LIST="bcmath bz2 ctype curl dom ffi fileinfo gd iconv igbinary imagick intl json mbstring opcache phar readline shmop simplexml soap sockets sqlite3 tidy xdebug xml xmlreader xmlwriter xsl zip"
 
 # PECL_EXTENSIONS_LIST=space- or comma-separated list of PECL extensions to
 # compile, install, and enable. You will need to install the dev/devel package
@@ -90,10 +94,14 @@ ENV TZ=$TIMEZONE \
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # ADD or COPY any files or directories needed in your image here.
+COPY docker/scripts/inject_github_token.sh /tmp/inject_github_token.sh
 
 # Customize PHP runtime according to the given building arguments.
 # Generally, this should be the last statement of your custom image.
-RUN ZendPHPCustomizeWithBuildArgs.sh
+RUN set -e; \
+    ZendPHPCustomizeWithBuildArgs.sh; \
+    /tmp/inject_github_token.sh "${GITHUB_USERNAME}" "${GITHUB_TOKEN}"; \
+    rm /tmp/inject_github_token.sh
 
 ## Install Swoole
 COPY --from=swoole /usr/lib/php/7.3-zend/openswoole.so /usr/lib/php/7.3-zend/openswoole.so
