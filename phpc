@@ -94,6 +94,11 @@ phpc_run_usage() {
     printf "    Default: AUTO\n"
     echo
 
+    # :flag.usage
+    echo "  --expose-port PORT"
+    printf "    A port for the container to expose. Use this option if you are\n    starting a web server (e.g. using the -S option, or starting an\n    async server via Mezzio or ReactPHP), or your script will listen\n    on a socket. The argument should be provided in a format that\n    \"docker run --publish\" supports.\n"
+    echo
+
     # :command.usage_args
     printf "Arguments:\n"
 
@@ -408,7 +413,11 @@ phpc_run_command() {
       php="${args[--php]}"
   fi
 
-  docker run -it --rm -v "$(pwd):/app" -w /app "zendphp:${php}" "${other_args[@]}"
+  if [[ -n "${args[--expose-port]}" ]]; then
+      docker run -it --rm -v "$(pwd):/app" -w /app -p "${args[--expose-port]}" "zendphp:${php}" "${other_args[@]}"
+  else
+      docker run -it --rm -v "$(pwd):/app" -w /app "zendphp:${php}" "${other_args[@]}"
+  fi
 
 }
 
@@ -565,6 +574,21 @@ phpc_run_parse_requirements() {
         shift
       else
         printf "%s\n" "--php requires an argument: --php PHP" >&2
+        exit 1
+      fi
+      ;;
+
+    # :flag.case
+    --expose-port )
+
+      # :flag.case_arg
+      if [[ -n ${2+x} ]]; then
+
+        args[--expose-port]="$2"
+        shift
+        shift
+      else
+        printf "%s\n" "--expose-port requires an argument: --expose-port PORT" >&2
         exit 1
       fi
       ;;
