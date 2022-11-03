@@ -23,6 +23,15 @@ commands:
     default: AUTO
     help: |-
           PHP version to use. If not provided, uses the default.
+  - long: --expose-port
+    arg: port
+    required: false
+    help: |-
+          A port for the container to expose. Use this option if you are
+          starting a web server (e.g. using the -S option, or starting an
+          async server via Mezzio or ReactPHP), or your script will listen
+          on a socket. The argument should be provided in a format that
+          "docker run --publish" supports.
 
   catch_all: 
     label: arguments

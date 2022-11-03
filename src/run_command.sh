@@ -10,4 +10,8 @@ else
     php="${args[--php]}"
 fi
 
-docker run -it --rm -v "$(pwd):/app" -w /app "zendphp:${php}" "${other_args[@]}"
+if [[ -n "${args[--expose-port]}" ]]; then
+    docker run -it --rm -v "$(pwd):/app" -w /app -p "${args[--expose-port]}" "zendphp:${php}" "${other_args[@]}"
+else
+    docker run -it --rm -v "$(pwd):/app" -w /app "zendphp:${php}" "${other_args[@]}"
+fi
