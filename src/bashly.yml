@@ -40,14 +40,14 @@ commands:
     required: true
 
   examples:
-  - phpc run -v
-  - phpc run -m
-  - phpc run -a
-  - phpc run vendor/bin/laminas
-  - phpc run --php 8.1 -v
-  - phpc run --php 5.6 -m
-  - phpc run --php 7.3 -a
-  - phpc run --php 8.0 vendor/bin/laminas
+  - zphp run -v
+  - zphp run -m
+  - zphp run -a
+  - zphp run vendor/bin/laminas
+  - zphp run --php 8.1 -v
+  - zphp run --php 5.6 -m
+  - zphp run --php 7.3 -a
+  - zphp run --php 8.0 vendor/bin/laminas
 
 - name: composer
   alias: c
@@ -68,12 +68,12 @@ commands:
     required: true
 
   examples:
-  - phpc composer
-  - phpc composer install
-  - phpc composer update
-  - phpc composer --php 8.1
-  - phpc composer --php 7.4 install
-  - phpc composer --php 5.6 update
+  - zphp composer
+  - zphp composer install
+  - zphp composer update
+  - zphp composer --php 8.1
+  - zphp composer --php 7.4 install
+  - zphp composer --php 5.6 update
 
 - name: switch
   alias: s
@@ -85,4 +85,4 @@ commands:
     allowed: ["5.6", "7.3", "7.4", "8.0", "8.1"]
 
   examples:
-  - phpc switch 8.1
+  - zphp switch 8.1
