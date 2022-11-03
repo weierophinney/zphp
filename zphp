@@ -131,7 +131,7 @@ zphp_run_usage() {
 
     # :flag.usage
     echo "  --expose-port PORT"
-    printf "    A port for the container to expose. Use this option if you are\n    starting a web server (e.g. using the -S option, or starting an\n    async server via Mezzio or ReactPHP), or your script will listen\n    on a socket. The argument should be provided in a format that\n    \"docker run --publish\" supports.\n"
+    printf "    A port for the container to expose. Use this option if you are\n    starting a web server -- e.g. using the -S option, or starting an\n    async server via Mezzio or ReactPHP -- or your script will listen\n    on a socket. The argument should be provided in a format that\n    \"docker run --publish\" supports.\n"
     echo
 
     # :command.usage_args
@@ -143,14 +143,14 @@ zphp_run_usage() {
 
     # :command.usage_examples
     printf "Examples:\n"
-    printf "  phpc run -v\n"
-    printf "  phpc run -m\n"
-    printf "  phpc run -a\n"
-    printf "  phpc run vendor/bin/laminas\n"
-    printf "  phpc run --php 8.1 -v\n"
-    printf "  phpc run --php 5.6 -m\n"
-    printf "  phpc run --php 7.3 -a\n"
-    printf "  phpc run --php 8.0 vendor/bin/laminas\n"
+    printf "  zphp run -v\n"
+    printf "  zphp run -m\n"
+    printf "  zphp run -a\n"
+    printf "  zphp run vendor/bin/laminas\n"
+    printf "  zphp run --php 8.1 -v\n"
+    printf "  zphp run --php 5.6 -m\n"
+    printf "  zphp run --php 7.3 -a\n"
+    printf "  zphp run --php 8.0 vendor/bin/laminas\n"
     echo
 
   fi
@@ -202,12 +202,12 @@ zphp_composer_usage() {
 
     # :command.usage_examples
     printf "Examples:\n"
-    printf "  phpc composer\n"
-    printf "  phpc composer install\n"
-    printf "  phpc composer update\n"
-    printf "  phpc composer --php 8.1\n"
-    printf "  phpc composer --php 7.4 install\n"
-    printf "  phpc composer --php 5.6 update\n"
+    printf "  zphp composer\n"
+    printf "  zphp composer install\n"
+    printf "  zphp composer update\n"
+    printf "  zphp composer --php 8.1\n"
+    printf "  zphp composer --php 7.4 install\n"
+    printf "  zphp composer --php 5.6 update\n"
     echo
 
   fi
@@ -253,7 +253,7 @@ zphp_switch_usage() {
 
     # :command.usage_examples
     printf "Examples:\n"
-    printf "  phpc switch 8.1\n"
+    printf "  zphp switch 8.1\n"
     echo
 
   fi
@@ -555,6 +555,7 @@ zphp_composer_command() {
   # src/composer_command.sh
   local php
 
+  # shellcheck disable=2154
   if [[ "${args[--php]}" == "AUTO" ]]; then
       if ! config_has_key "default"; then
           red "You do not have a default PHP version set yet!"
@@ -565,6 +566,7 @@ zphp_composer_command() {
       php="${args[--php]}"
   fi
 
+  # shellcheck disable=2154
   docker run -it --rm -v "$(pwd):/app" -w /app --entrypoint /usr/local/sbin/composer "zendphp:${php}" "${other_args[@]}"
 
 }
