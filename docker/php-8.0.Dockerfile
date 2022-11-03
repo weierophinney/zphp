@@ -91,14 +91,14 @@ ENV TZ=$TIMEZONE \
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # ADD or COPY any files or directories needed in your image here.
-COPY docker/scripts/inject_github_token.sh /tmp/inject_github_token.sh
+COPY docker/scripts/inject_github_token.sh /usr/local/bin/inject_github_token.sh
 
 # Customize PHP runtime according to the given building arguments.
 # Generally, this should be the last statement of your custom image.
 RUN set -e; \
     ZendPHPCustomizeWithBuildArgs.sh; \
-    /tmp/inject_github_token.sh "${GITHUB_USERNAME}" "${GITHUB_TOKEN}"; \
-    rm /tmp/inject_github_token.sh
+    inject_github_token.sh "${GITHUB_USERNAME}" "${GITHUB_TOKEN}"; \
+    rm /usr/local/bin/inject_github_token.sh
 
 ## Install Swoole
 COPY --from=swoole /usr/lib/php/8.0-zend/openswoole.so /usr/lib/php/8.0-zend/openswoole.so
