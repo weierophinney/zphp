@@ -56,3 +56,10 @@ php-%: cmd-exists-docker  ## Build PHP container, where % is a PHP version
 	@printf "$(GREEN)Built zendphp:$(*)$(END)\n"
 
 all: php-8.1 php-8.0 php-7.4 php-7.3 php-5.6  ## Build all containers
+
+list-versions:  ## List supported PHP versions
+	@printf "$(GREEN)- 8.1$(END)\n"
+	@printf "$(GREEN)- 8.0$(END)\n"
+	@printf "$(GREEN)- 7.4$(END)\n"
+	@printf "$(GREEN)- 7.3$(END)\n"
+	@printf "$(GREEN)- 5.6$(END)\n"
