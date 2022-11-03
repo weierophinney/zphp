@@ -8,7 +8,7 @@ Use `make help` to get a list of available targets.
 You can run `make help` to get a list of targets.
 `make all` will build all images.
 
-### Credentials
+### ZendPHP LTS Credentials
 
 For LTS versions, you will need to provide credentials.
 You can do this via a `.env` file, with the following contents:
@@ -17,6 +17,14 @@ You can do this via a `.env` file, with the following contents:
 ZENDPHP_REPO_USERNAME={ORDER ID or account ID}
 ZENDPHP_REPO_PASSWORD={password}
 ```
+
+### GitHub credentials
+
+In order to provide extended GitHub API limits when using Composer, you may want to build the images such that they contain your GitHub credentials.
+These are controlled by the `.env` variables:
+
+- GITHUB_USERNAME
+- GITHUB_TOKEN
 
 ## Usage
 
@@ -64,3 +72,12 @@ phpc composer --php 8.1 install
 ```
 
 > If you have set a default PHP version via `phpc switch 8.1`, you can omit the `--php` flag.
+
+### Executing a PHP-based webserver
+
+The `--expose-port` flag to `phpc run` will expose that port to the host.
+This allows you to run PHP-based web servers, including the built-in web server:
+
+```bash
+phpc run --expose-port 8080 -S 0.0.0.0:8080 -t .
+```
