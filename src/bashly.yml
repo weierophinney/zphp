@@ -9,6 +9,7 @@ help: |-
 version: 0.1.0dev
 
 commands:
+- import: src/completions_command.sh
 - name: run
   alias: r
   help: Run the PHP binary or a PHP script
